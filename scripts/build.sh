@@ -47,7 +47,7 @@ BUILD_OUT="${BUILD_DIR}/output"
 rm -rf "${BUILD_OUT}"
 mkdir -p "${BUILD_OUT}/iso"
 mkdir -p "${BUILD_OUT}/efi/EFI/BOOT"
-cp "${BUILD_DIR}/src/bin/ipxe.iso" "${BUILD_OUT}/iso/ipxe.iso"
+cp "${BUILD_DIR}/src/bin-i386-pc/ipxe.lkrn" "${BUILD_OUT}/iso/ipxe.lkrn"
 cp "${BUILD_DIR}/src/bin-x86_64-efi/ipxe.efi" "${BUILD_OUT}/efi/EFI/BOOT/BOOTx64.EFI"
 
 EFI_IMG="${BUILD_OUT}/efi.img"
@@ -57,7 +57,7 @@ xorriso -as mkisofs -o "${EFI_IMG}" \
 
 xorriso -as mkisofs -o "${DIST_DIR}/ipxe-custom.iso" \
   -iso-level 3 -volid IPXE_CUSTOM \
-  -eltorito-boot iso/ipxe.iso -no-emul-boot -boot-load-size 4 -boot-info-table \
+  -eltorito-boot iso/ipxe.lkrn -no-emul-boot -boot-load-size 4 -boot-info-table \
   -eltorito-alt-boot -e "${EFI_IMG}" -no-emul-boot \
   -isohybrid-gpt-basdat -append_partition 2 0xef "${EFI_IMG}" \
   "${BUILD_OUT}/iso"
