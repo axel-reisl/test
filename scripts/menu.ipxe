@@ -1,0 +1,69 @@
+#!ipxe
+# Main Boot Menu
+# Customize SERVER below before using
+
+set SERVER https://your-server.com
+set TIMEOUT 30000
+
+:menu
+menu --title "Boot Menu" --timeout ${TIMEOUT}
+item --gap -- ========== Linux Distributions ==========
+item ubuntu          Ubuntu 22.04 LTS
+item debian          Debian 12
+item fedora          Fedora 39
+item arch             Arch Linux
+item --gap -- ========== System Tools ==========
+item gparted         GParted Live
+item clonezilla      CloneZilla
+item memtest         Memory Test
+item shell           iPXE Shell
+item exit            Exit (Boot Local Disk)
+choose target && goto ${target}
+
+:ubuntu
+echo Downloading Ubuntu 22.04 LTS...
+kernel ${SERVER}/iso/ubuntu-22.04.5-live-server-amd64.iso || goto failed
+boot || goto failed
+
+:debian
+echo Downloading Debian 12...
+kernel ${SERVER}/iso/debian-12.0.0-amd64-DVD-1.iso || goto failed
+boot || goto failed
+
+:fedora
+echo Downloading Fedora 39...
+kernel ${SERVER}/iso/Fedora-39-x86_64-dvd.iso || goto failed
+boot || goto failed
+
+:arch
+echo Downloading Arch Linux...
+kernel ${SERVER}/iso/archlinux-x86_64.iso || goto failed
+boot || goto failed
+
+:gparted
+echo Downloading GParted Live...
+kernel ${SERVER}/iso/gparted-1.4.0-1-amd64.iso || goto failed
+boot || goto failed
+
+:clonezilla
+echo Downloading CloneZilla...
+kernel ${SERVER}/iso/clonezilla-3.1.1-31-amd64.iso || goto failed
+boot || goto failed
+
+:memtest
+echo Downloading Memtest86+...
+kernel ${SERVER}/iso/memtest86+-6.10.iso || goto failed
+boot || goto failed
+
+:shell
+shell
+goto menu
+
+:exit
+echo Exiting iPXE - booting local disk
+exit
+
+:failed
+echo Boot failed! Check server or try another option.
+sleep 3
+goto menu
