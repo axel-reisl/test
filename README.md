@@ -57,7 +57,7 @@ chmod +x scripts/build.sh
 ./scripts/build.sh https://your-server.com
 ```
 
-This creates: `dist/ipxe-custom.iso`
+This creates: `dist/ipxe-custom.iso` — a hybrid BIOS + UEFI boot ISO.
 
 ---
 
