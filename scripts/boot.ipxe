@@ -1,0 +1,34 @@
+#!ipxe
+# Custom iPXE Boot Script
+# This script runs automatically when ISO boots
+# It fetches your menu from an HTTPS server
+
+# Configuration
+set SERVER https://your-server.com
+
+# Optional: Disable HTTPS verification (for self-signed certs, testing only)
+# set VERIFY off
+
+# Show startup banner
+echo
+echo ============================================
+echo    Custom iPXE Boot System
+echo ============================================
+echo
+echo Connecting to boot server...
+echo
+
+# Fetch and execute menu from server
+chain ${SERVER}/ipxe/menu.ipxe ||
+  goto failed
+
+# If menu fails, drop to shell
+:failed
+echo
+echo ERROR: Failed to fetch menu from server!
+echo Server: ${SERVER}/ipxe/menu.ipxe
+echo
+echo Dropping to iPXE shell for debugging...
+echo Type 'help' for commands or 'exit' to boot local disk
+shell
+exit 1
